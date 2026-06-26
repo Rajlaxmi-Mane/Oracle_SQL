@@ -1,0 +1,78 @@
+# FUNCTIONS :
+
+-- function is a block of code or list of instruction which is used to perform specific task.
+-- There are 2 types of function :
+  1. In-built function - i. Single row function (SRF)
+                         ii. Multi-row function (MRF).
+  2. User-defined function
+
+# Single-Row Function :
+-- SRF executes row by row.
+-- SRF takes one input process and executes and generate one output and so on.
+-- SRF can be used in where clause.
+-- If we pass n no of inputs to SRF it will generate n no of outputs 
+Exa: LENGTH(), REVERSE(), CONCAT(), MOD(), POWER()
+
+# Multi-Row Function :
+-- MRF executed group by group.
+-- IT takes no of inputs process it and generate only one outpur.
+-- MRF can be used with GROUP BY clause. We cannot use MRF in WHERE clause.
+-- If we pass n no of inputs to a MRF function it will generate only one output.
+Exa: COUNT(), MIN(), MAX(), SUM(), AVG()
+
+There are some rules for MRF:
+1. MRF ignores NULL values.
+2. We can use * (Asterisk) only for COUNT() funtion.
+3. We cannot pass multiple columns to MRF function.
+4. We cannot use MRF in WHERE clause
+5. we cannot use any other column_name along with mrf function in SELECT clause.
+
+1. WAQTD total sal of all empl from emp.
+==> SELECT SUM(SAL)
+    FROM EMP;
+
+2. WAQTD no of empls working in deptno 20.
+==> SELECT COUNT(*) AS "NO_OF_EMP_DEPT20"
+    FROM EMP
+    WHERE DEPTNO = 20;
+
+3. WAQTD no of clerks.
+==> SELECT COUNT(JOB) AS "NO_OF_CLERKS"
+    FROM EMP
+    WHERE JOB = 'CLERK';
+
+4. WAQTD no of empls not earning any comm.
+==> SELECT COUNT(*) AS "EMPLS_WITH_COMM_0"
+    FROM EMP
+    WHERE COMM IS NULL OR COMM = 0;
+
+5. WAQTD max sal of empl working as a clerk.
+==> SELECT MAX(SAL) AS "CLERK_MAX_SAL" 
+    FROM EMP
+    WHERE JOB = 'CLERK';
+
+6. WAQTD avg sal of empls working as a clerk in deptno 30.
+==> SELECT AVG(SAL)
+    FROM EMP
+    WHERE JOB = 'CLERK' AND DEPTNO = 30;
+
+7. WAQTD NO of empls not hired in feb.
+==> SELECT COUNT(*)
+    FROM EMP
+    WHERE HIREDATE NOT LIKE '%FEB%';
+
+8. WAQTD no of different job.
+==> SELECT COUNT(DISTINCT JOB)
+    FROM EMP;
+
+9. WAQTD no of empls working in each dept.
+==> SELECT COUNT(*), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
+
+10. WAQTD empl who dont have reporting mgr.
+==> SELECT * 
+    FROM EMP
+    WHERE MGR IS NULL;
+
+
