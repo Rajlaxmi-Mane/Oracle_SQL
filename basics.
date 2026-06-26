@@ -1,0 +1,40 @@
+Database :  It is a place or medium which is used to store data in systematic and organized manner.
+The basic operations can be performed on databases are : 
+C - create/insert
+R - retrieve/read
+U - update/modify/ulter
+D - delete/remove/truncate
+
+Advantages:
+1.Storage
+2.Reuse
+3.Upto date data.
+4.Security
+5.Backup
+
+Database Management System :
+
+-- DBMS is a software which is used to manage and maintain the databases.
+-- It provides security to user's data.
+-- It provides authentication to user data.
+-- DBMS stores data in the form of files.
+-- To communicate with DBMS we use qury language.
+          
+Relational database management system :
+
+-- Any DBMS which follows relation model is known as RDBMS.
+-- RDBMS also provide security and authentication.
+-- To communicate with with RDBMS we use Structured Query Language(SQL).
+
+Relational Model :
+
+-- It is designed by E.F.Codd.
+-- It consist of some rule known as E.F.Codd rules.
+
+# Rules :
+1. Data enter into cells must be single valued data(Automic data).
+2. We can store data into multiple tables and can establish connection between them with the help of primary key and foreign key.
+3. In RDBMS we store everything in tables even metadata also.
+4. The data to be stored into a table should be validated in 2 ways : 
+             a) By assigning datatypes
+             b) By assigning constraints.
