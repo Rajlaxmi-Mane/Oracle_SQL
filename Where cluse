@@ -1,0 +1,47 @@
+WHERE CLAUSE :
+-- It is used to filter the records.
+-- Where clause executes after the execution of from clause.
+-- Where clause executes in row by row format.
+-- In where clause we write filter condition.
+-- We can also write multiple condition in where clause these condition must retur boolean values.
+-- Where clause specify the criteria that record must be satisfied
+
+# Syntax :
+
+SELECT */ DISTINCT COL_NAME/ EXPRESSION [ALIAS]
+FROM TABLE_NAME
+WHERE <FILTER_CONDITION>;
+
+# Execution principle :
+1. FROM   -->  Fetch table from database (put table under execution).
+2. WHERE  -->  Row by row.
+3. SELECT -->  Group by group.
+
+1. WAQTD name and sal of empls working in dno 10.
+==> SELECT ENAME,SAL
+    FROM EMP
+    WHERE DEPTNO = 10;
+
+
+2. WAQTD details of emps getting sal more than 3k.
+==> SELECT ENAME,SAL
+    FROM EMP
+    WHERE sal > 3000;
+
+3. WAQTD annual sal of the empl whose name is smith.
+==> SELECT SAL*12 AS "ANNUAL_SAL_SMITH"
+    FROM EMP
+    WHERE ENAME = 'SMITH';
+
+4. WAQTD details of the empls who r hired after 1st jan 81.
+==> SELECT *
+    FROM EMP
+    WHERE HIREDATE > TO_DATE('01-JAN-1981', 'DD-MON-YYYY');
+
+5. If no of row are more and u are not getting output table properly then try.
+==> set linesize 100;
+
+6. WAQTD empl hired before year 87.
+==> SELECT * 
+    FROM EMP
+    WHERE HIREDATE < TO_DATE('01-JAN-1987', 'DD-MON-YYYY');
