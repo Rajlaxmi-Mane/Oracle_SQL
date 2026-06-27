@@ -1,0 +1,52 @@
+# HAVING CLAUSE :
+-- Having clause is used to apply filter conditons on groups.
+-- It executes after group by clause.
+-- IT executes group by group.
+-- We can use MRF function in having cluase.
+-- we can use having only if we have group by present in our query.
+
+#SYNTAX :
+        SELECT MRF_FUNCTION / GROUP_BY_EXPRESSION
+        FROM TABLE_NAME
+        [WHERE <FILTER_CONDITON>]
+        GROUUP BY COL_NAMES
+        HAVING <GROUP_FILTER_CONDITIONS>;
+
+# EXECUTION PRINCIPLE:
+1. FROM     - Fetch table from db
+2. WHERE    - row by row
+3. GROUP BY - row by row
+4. HAVING   - group by group
+5. SELECT   - group by group 
+
+1. WAQTD No of emps and deptno if there are 2 empls working in it.
+==> SELECT COUNT(*), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO 
+    HAVING COUNT(*) = 2;
+
+2. WAQTD dno and no of empls working in each dept if there are atleast 2 clerks in THAT dept.
+==> SELECT COUNT(*), DEPTNO
+    FROM EMP
+    WHERE JOB = 'CLERK'
+    GROUP BY DEPTNO
+    HAVING COUNT(JOB) >= 2;
+
+3. WAQTD no of emps earning sal > 1200 in each job and the total sal needed to pay empl must exceed 3800.
+==> SELECT COUNT(*), JOB
+    FROM EMP
+    WHERE SAL > 1200
+    GROUP BY JOB
+    HAVING SUM(SAL) > 3800;
+
+4. WAQTD hiredate which are repeated.
+==> SELECT COUNT(*), HIREDATE
+    FROM EMP
+    GROUP BY HIREDATE
+    HAVING COUNT(*) > 1;
+
+5. WAQTD min and max sal of each job if min sal > 1k and max sal < 5k.
+==> SELECT MIN(SAL), MAX(SAL), JOB
+    FROM EMP
+    GROUP BY JOB
+    HAVING MAX(SAL) < 5000 AND MIN(SAL) > 1000;
