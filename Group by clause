@@ -1,0 +1,79 @@
+# GROUP BY CLAUSE :
+-- Group by clause is used the groups the records.
+-- It rxecutes row by row.
+-- It executes after the completion of where clause if present.
+-- the column mentioned in group by clause can be written inside select clause, along with any mrf function.
+-- it will groups the record based on unique values present inside a column mentioned in group by clause.
+-- We can pass multiple columns to group by clause.
+
+SYNTAX :
+        SELECT */ [DISTINCT] COL_NAME/ EXPRESSION [ALIAS]
+        FROM TABLE_NAME
+        [WHERE <FILTER_CONDITION>]
+        GROUP BY COLUMN_NAMES;
+
+# Execution principle :
+1. FROM     - Put table under execution
+2. WHERE    - row by row
+3. GROUP BY - row by row
+4. SELECT   - group by group
+
+1. WAQTD no of empls and deptno of empls from each dept.
+==> SELECT COUNT(*), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
+
+2. WAQTD max sal from each dept.
+==> SELECT MAX(SAL), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
+
+3. WAQTD no of clerks from each dept.
+==> SELECT COUNT(JOB)
+    FROM EMP
+    WHERE JOB = 'CLERK'
+    GROUPBY DEPTNO;
+
+4.WAQTD max sal min sal from each dept along with deptno.
+==> SELECT MAX(SAL), MIN(SAL), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
+
+5. WAQTD no of empls hired on same date.
+==> SELECT COUNT(*), HIREDATE
+    FROM EMP
+    GROUP BY HIREDATE;
+
+6. WAQTD no of empls if that dep have more than 3 emps.
+==> SELECT COUNT(*), DEPTNO 
+    FROM EMP
+    GROUP BY DEPTNO
+    HAVING COUNT(*) > 3;
+
+7. WAQTD total sal to be pay in each dept.
+==> SELECT SUM(SAL), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
+
+8. WAQTD no of empls working as mgr in each dept.
+==> SELECT COUNT(*), DEPTNO
+    FROM EMP
+    WHERE JOB = 'MANAGER'
+    GROUP BY DEPTNO;
+
+9. WAQTD no of empls having a in their name in each job.
+==> SELECT COUNT(*), JOB
+    FROM EMP
+    WHERE ENAME LIKE '%A%'
+    GROUP BY JOB;
+
+10. WAQTD no of empls and avg sal needed to pay to the empls whose sal > 2k in each dept.
+==> SELECT AVG(SAL), COUNT(*), DEPTNO
+    FROM EMP
+    WHERE SAL > 2000
+    GROUP BY DEPTNO;
+
+11.WAQTD empls with max sal from each dept.
+==> SELECT MAX(SAL), DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO;
