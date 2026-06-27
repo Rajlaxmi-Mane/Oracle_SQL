@@ -1,0 +1,37 @@
+# ORDER BY CLAUSE :
+-- Order by clause is used to arrange the records in ascending or descending order.
+-- It executes at the last after the execution of select clause.
+-- Executes group by group.
+-- Column used in group by cluase should be used in order by clause.
+-- It is the only clause which executes after the select.
+
+# SYNTAX :
+          SELECT */ [DISTINCT] COLUMN_NAME/ EXPRESSION [ALIAS]
+          FROM TABLE_NAME
+          ORDER BY COLUMN_NAME ASC/DESC;
+
+          SELECT MRF_FUNCTION/ GROUP_BY_EXPRESSION
+          FROM TABLE_NAME
+          [WHERE <FILTER_CONDITION>]
+          [GROUP BY COLUMNS]
+          [HAVING <GROUP_FILTER_CONDITION>]
+          ORDER BY GROUP_BY_COL_EXPR;
+-- Effect of group by clause
+
+# EXECUTION PRINCIPLE
+1. FROM     - Fetch table from db.
+2. WHERE    - row by row
+3. GROUP BY - row by row
+4. HAVING   - group by group
+5. SELECT   - group by group
+6. ORDER BY - row by row.
+
+1. WAQTD sal in ascending order.
+==> SELECT * 
+    FROM EMP
+    ORDER BY SAL ASC;
+
+2. Arrange empl according to albhabetical order of their name.
+==> SELECT *
+    FROM EMP
+    ORDER BY ENAME ASC;
