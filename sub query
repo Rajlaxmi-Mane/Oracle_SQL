@@ -1,0 +1,102 @@
+# SUB QUERY : 
+-- A query written inside another query is known as sub query.
+-- OUTER QUERY | I/P |  <======================= | O/P | INNER QUERY
+
+# EXECUTION PRINCIPLE :
+-- Lets consider two queries outer query and inner query.
+-- Inner query executes first.
+-- Inner qury executes first generates output and its given as a input to the outer query.
+-- Outer qury executes after the completing execution of inner query and generate result.
+-- Therefore we can state that outer query is dependent on inner query.
+-- This is the execution principle of sub-query.
+
+# CASE 1 :
+-- Whenever we have unknown present/value or indirect condition in the given question then we go for sub query.
+EXA : Diaplay details of empl having 8k sal.  --> Here having sal > 8k direct condition is given
+      WAQTD details of empl earning sal same as smith sal --> smiths sal indirect condition/Unknown value
+
+1. WAQTD details of empl having sal same as smiths sal.
+--> SELECT * 
+    FROM EMP
+    WHERE SAL > (SELECT SAL
+                 FROM EMP
+                 WHERE ENAME = 'SMITH');     
+2. WAQTD name and sal of emps earning sal more than james and less than ford.
+--> SELECT NAME, SAL
+    FROM EMP
+    WHERE SAL > ( SELECT SAL 
+                  FROM EMP
+                  WHERE ENAME = 'JAMES') AND
+          SAL < ( SELECT SAL
+                  FROM EMP
+                  WHERE ENAME ='FORD');
+
+3. WAQTD empls having job same as allen and ward.
+--> SELECT *
+    FROM EMP 
+    WHERE JOB IN ( SELECT JOB
+                   FROM EMP
+                   WHERE ENAME IN ('ALLEN','WARD'));
+
+4.WAQTD name and deptno of empls from each dept if there are 3 ampls working in it.
+--> SELECT ENAME,DEPTNO 
+    FROM EMP
+    WHERE DEPTNO IN ( SELECT DEPTNO
+                      FROM EMP
+                      GROUP BY DEPTNO
+                      HAVING COUNT(*) > 3 );
+
+5. WAQTD name ,sal and deptno of empls having max sal from each dept.
+--> SELECT ENAME, SAL, DEPTNO
+    FROM EMP
+    WHERE SAL IN ( SELECT MAX(SAL)
+                   FROM EMP
+                   GROUP BY DEPTNO );
+
+# CASE 2 :
+-- Whenever data to be selected and condition to be executed are from different tables then we go for sub query.
+EXA : display empl details whose job loc is yew work
+-- here empl details are in emp table and the condition that shoud be executed is from dept table
+
+1. WAQTD dname of allen.
+--> SELECT DNAME
+    FROM DEPT
+    WHERE DEPTNO IN ( SELECT DEPTNO
+                      FROM EMP
+                      WHERE ENAME IN 'ALLEN' );
+
+2. WAQTD name of the empls working in new york along with deptno.
+--> SELECT ENAME, DEPTNO
+    FROM EMP
+    WHERE DEPTNO IN ( SELECT DEPTNO
+                      FROM DEPT
+                      WHERE LOC = 'NEW YORK' );
+
+3. WAQTD details of empls having max sal and working in new york.
+--> SELECT * 
+    FROM EMP
+    WHERE SAL = ( SELECT MAX(SAL)
+                  FROM EMP ) AND
+          DEPTNO IN ( SELECT DEPTNO 
+                      FROM DEPT
+                      WHERE LOC = 'NEW YORK' );
+
+4.WAQTD ename, sal and deptno of empl getting max sal from chicago.
+--> SELECT ENAME, SAL, DEPTNO
+    FROM EMP
+    WHERE SAL IN ( SELECT MAX(SAL)
+                   FROM EMP
+                   WHERE DEPTNO IN ( SELECT DEPTNO 
+                                     FROM DEPT
+                                     WHERE LOC = 'CHICAGO')
+                   GROUP BY DEPTNO );
+
+5. WAQTD dept details of empls earning sal > 2900 and from dallas.
+--> SELECT *
+    FROM DEPT
+    WHERE LOC = 'DALLAS' AND
+          DEPTNO IN ( SELECT DEPTNO 
+                      FROM EMP
+                      WHERE SAL > 2900);
+
+
