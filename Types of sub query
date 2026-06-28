@@ -1,0 +1,74 @@
+# TYPES OF SUB QUERY : 
+1.Single-row sub query :
+-- Whenever sub query returns single row/output/value then it is known as single row sub query.
+-- To compare with o/p srsq we can use normal operators(comparision, rekational or special op).
+
+2.Multi-row sub query :
+-- whenever sub query return multiple row/values/ouput then it is known as multi-row sub query.
+-- To compare with o/p of MRSQ we must use special op ( IN, NOT IN, ALL, ANY ).
+
+1. WAQTD name and sal of the emps earning sal same as smith and allen.
+--> SELECT ENAME, SAL
+    FROM EMP
+    WHERE SAL IN ( SELECT SAL
+                   FROM EMP
+                   WHERE ENAME IN ('SMITH','ALLEN'));
+
+# NESTED SUB QUERY :
+-- Multiple queries inside one another is called as nested sub queries.
+
+1.WAQTD deptno and loc of empls who are working in the same job as that of allen and earns sal lesser than ward.
+--> SELECT DEPTNO, LOC
+    FROM DEPT
+    WHERE DEPTNO IN ( SELECT DEPTNO 
+                      FROM EMP
+                      WHERE JOB IN ( SELECT JOB
+                                     FROM EMP
+                                     WHERE ENAME = 'ALLEN' AND
+                                           SAL < ( SELECT SAL 
+                                                   FROM EMP 
+                                                   WHERE ENAME = 'WARD')));
+
+# EMPLOYEE-MANAGER RELATIONSHIP:
+
+1.WAQTD the name of aashok's manager.
+--> SELECT  ENAME
+    FROM EMP
+    WHERE EMPNO IN ( SELECT MGR
+                     FROM EMP
+                     WHERE ENAME='SMITH');
+
+2. WAQTD job of smith's manager.
+--> SELECT JOB
+    FROM EMP
+    WHERE EMPNO IN ( SELECT MGR
+                     FROM EMP
+                     WHERE ENAME = 'SMITH');
+
+3. WAQTD emps working under king.
+--> SELECT *
+    FROM EMP
+    WHERE MGR IN ( SELECT EMPNO
+                   FROM EMP
+                   WHERE ENAME IN 'KING');
+4. WAQTD dname and loc of the empls who are working in the same job as smiths amanager.
+--> SELECT DNAME, LOC
+    FROM DEPT
+    WHERE DEPTNO IN ( SELECT DEPTNO
+                      FROM EMP
+                      WHERE JOB IN ( SELECT JOB
+                                     FROM EMP
+                                     WHERE EMPNO IN ( SELECT MGR 
+                                                      FROM EMP
+                                                      WHERE ENAME IN 'SMITH')));
+
+5. WAQTD deptname and loc smith's manager's manager.
+--> SELECT DNAME, LOC
+    FROM DEPT
+    WHERE DEPTNO IN ( SELECT DEPTNO 
+                      FROM EMP
+                      WHERE EMPNO IN ( SELECT MGR
+                                       FROM EMP
+                                       WHERE EMPNO IN ( SELECT MGR
+                                                        FROM EMP
+                                                        WHERE ENAME IN 'SMITH')));
