@@ -1,0 +1,74 @@
+# PSEUDO COLUMNS :
+-- Psuedo columns are the fake columns which will not get displayed bydefault. 
+-- These are present for every table.
+-- There are two types of pseudo collumns.
+   1.rowid
+   2.rownum
+
+1. ROWID : 
+-- Rowid is a 18 character address given for a record.
+-- Rowid is unique.
+-- Rowid is not null.
+-- Rowid is constant.
+-- If a table does not primary key, we can make rowid as a primary key.
+-- Rowid is generated when we insert the data.
+
+2. ROWNUM : 
+-- Rownum acts as a serial number of a record.
+-- Rownum is unique.
+-- Rownum is not null.
+-- Rownum is not constant.
+-- So, we cannot make it as a primary key.
+-- Rownum is generated at the time of execution.
+-- Deffault value of rownum is 1.
+
+Exa : Nth Max sal.
+-- SELECT SAL
+  FROM ( SELECT SAL, ROWNUM AS SRNO
+         FROM ( SELECT DISTINCT SAL
+                FROM EMP 
+                ORDER BY SAL DESC ) )
+  WHERE SRNO = 1;
+
+1. WAQTD 4th min sal.
+--> SELECT SAL 
+    FROM ( SELECT SAL, ROWNUM AS SRNO
+           FROM ( SELECT DISTINCT SAL
+                  FROM EMP
+                  ORDER BY SAL ASC ) )
+    WHERE SRNO = 4 ;
+
+2. WAQTD even records from empl table.
+--> SELECT * 
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP)
+    WHERE MOD(SRNO, 2) = 0;
+    -----------------------    FOR ODD RECORDS   ---------------------
+    SELECT * 
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP )
+    WHERE MOD(SRNO, 2) != 0;
+
+3. WAQTD first 5 even records from emp.
+--> SELECT *
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP )
+    WHERE MOD(SRNO, 2) = 0 AND SRNO <= 10;
+----------------------- FOR LAST 5 EVEN RECORDS  -------------------------
+    SELECT *
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP )
+    WHERE MOD(SRNO, 2) = 0 AND SRNO > ( SELECT COUNT(*) - 10 FROM EMP);
+
+4. WAQTD First half of emp table.
+--> SELECT *
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP )
+    WHERE SRNO <= ( SELECT COUNT(*)/2
+                   FROM EMP ) ;
+----------------------- FOR 2ND HALF  -------------------------
+    SELECT *
+    FROM ( SELECT EMP.*, ROWNUM AS SRNO
+           FROM EMP )
+    WHERE SRNO > ( SELECT COUNT(*)/2
+                   FROM EMP ) ;
