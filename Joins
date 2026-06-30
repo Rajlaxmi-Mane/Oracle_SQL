@@ -1,0 +1,215 @@
+# JOINS :
+-- Joins are used to fetch data from multiple tables.
+-- Joins are usedd whenever we want to select attribute from multiple tables.
+-- There are some drawbacks of subqueries to overcome that we use joins.
+
+# DRAWBACKS OF SUB QUERY :
+1. Can't fetch data from both tables at a time
+   exa: danme,ename at a time
+2. If no. of conditions increases length of query also increases.
+   exa:100th maxx salary.
+3. Can have only 255 nested sub queries.
+4. Not efficient.
+
+#TYPES OF JOINS :
+--------------------------------------
+1. Cartesial join/ cross join
+2. Inner join/ Equi join
+3. Natural join
+4. Oter join :
+      i.Left outer join
+      ii.Right outer join
+      iii.Full outer join
+5. Self join
+
+---------------------------------------
+1. CROSS JOIN :
+---------------------------------------
+
+-- Cross join is used to fetch matched and unmatched records from both the tables.
+-- It is also known as Cartesian join which follows cartesian principle.
+-- In cross join the records from table 1 will be merged with all records of table 2.
+-- The no of column in result table = no of column in tab1 + no of col in tab2
+-- The no of rows in result table = no of rows from tab1 * no of rows from tab2
+
+# ANSI SYNTAX :
+           SELECT */ DISTINCT [COLUMN_NAME]/ EXPRESSION [ALIAS]
+           FROM TAB CROSS JOIN TAB2;
+
+# ORACLE SYNTAX :
+           SELECT */ [DISTINCT] COLUMN_NAME / EXPRESSION [ALIAS]
+           FROM TABLE1, TABLE2;
+
+-- Since, cross join produces more no of unmatched/error records and decrease efficiency we don't use cross join,
+   instead of cross join we should use inner join.
+
+---------------------------------------
+2. INNER JOIN :
+---------------------------------------
+
+-- It is used to fetch matched records only.
+-- To fetch only matched records we have to use join coondition.
+-- It is a condition on which we merge two tables.
+-- In the join condition we must we common columns.
+
+# ANSI SYNTAX :
+              SELECT */[DISTINC] COL_NAME/EXPRESSION [ALIAS]
+              FROM TBA1 INNER JOIN TAB2
+              ON TAB1.CC = TAB2.CC;
+
+# ORACLE SYNTAX :
+              SELECT */[DISTINC] COL_NAME/EXPRESSION [ALIAS]
+              FROM TBA1, TAB2
+              WHERE TAB1.CC = TAB2.CC;
+1.WAQTD emp name and dept details.
+--> SELECT E.ENAME, D.*
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO = D.DEPTNO;
+
+2. WAQTD name, dname and loc of smith.
+--> SELECT E.ENAME, D.DNAME, D.LOC
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO = D.DEPTNO;
+
+3. WAQTD name, sal and loc of emp earning max sal in new yorK.
+--> SELECT E.ENAME, E.SAL, D.LOC
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO = D.DEPTNO AND
+          SAL IN ( SELECT MAX(SAL)
+                   FROM EMP 
+                   WHERE DEPTNO IN ( SELECT DEPTNO 
+                                     FROM DEPT
+                                     WHERE LOC IN 'NEW YORK' ));
+
+4. WAQTD dname and max sal from each dept.
+--> SELECT D.DNAME, SAL
+    FROM DEPT D, EMP E
+    WHERE D.DEPTNO = E.DEPTNO AND
+          SAL IN ( SELECT MAX(SAL)
+                   FROM EMP
+                   GROUP BY DEPTNO );
+
+---------------------------------------
+3. NATURAL JOIN :
+---------------------------------------
+
+-- It has 2 behaviours :
+1. Whenever there is relation betweeen 2 tables getting join it will act like inner join.
+   exa : emp,dept
+2. Whenever there is no relation between 2 tables getting join then it behaves like cross join.
+   exa emp, salgrade
+-- Natural join display common columns only once.
+
+# SYNTAX :
+         SELECT */[DISTINCT] COL_NMAE/ EXPRESSION [ALIAS]
+         FROM TABL1 NATURAL JOIN TABLE2;
+-- Natural join have only one syntax.
+
+---------------------------------------
+4. OUTER JOIN :
+---------------------------------------
+
+-- It is used to fetch the unmatched records from perticular table along with matched records.
+-- There are 3 types of outer join : 
+   i.Left outer join
+   ii.Right outer join
+   iii.Full outer join
+
+i) LEFT OUTER JOIN :
+-- It is used to fetch unmatched records from left table along with matched records.
+
+# ANSI SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 LEFT [OUTER] JOIN TABLE2
+             ON TABLE1.CC = TABLE2.CC;
+
+# ORACLE SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1, TABLE2
+             WHERE TABLE1.CC = TABLE2.CC(+);
+
+1. WAQTD name , dname of empls even though emps not working in any dept.
+--> SELECT E.ENAME, D.DNAME
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO = D.DEPTNO(+);
+
+ii) RIGTH OUTER JOIN :
+-- It is used to fetch matched and unmatched records from right table, along with matched records from left table.
+
+# ANSI SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 RIGHT [OUTER] JOIN TABLE2
+             ON TABLE1.CC = TABLE2.CC;
+
+# ORACLE SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1, TABLE2
+             WHERE TABLE1.CC(+) = TABLE2.CC;
+
+1. WAQTD name , dname of empls even though DEPT not HAVING any emp working in it.
+--> SELECT E.ENAME, D.DNAME
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO(+) = D.DEPTNO;
+
+iii) FULL OUTER JOIN :
+-- It is used to fetch the matched and unmatched records from both tables.
+
+# ANSI SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 FULL [OUTER] JOIN TABLE2
+             ON TABLE1.CC = TABLE2.CC;
+
+# ORACLE SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1, TABLE2
+             WHERE TABLE1.CC = TABLE2.CC(+)
+                        UNION
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 , TABLE2
+             WHERE TABLE1.CC(+) = TABLE2.CC;
+
+1. WAQTD ename, dname even empl not working in any dept or even if any dept dont have any empl working in it.
+--> SELECT E.ENAME, D.DNAME
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO = D.DEPTNO(+)
+             UNION
+    SELECT E.ENAME, D.DNAME
+    FROM EMP E, DEPT D
+    WHERE E.DEPTNO(+) = D.DEPTNO;
+
+---------------------------------------
+5. SELF JOIN :
+---------------------------------------
+
+-- Joining table to itself is known as self join.
+-- Whenever data to be displayed is from same table but present in different records then we go for self join.
+-- In self join same table are merged or joined.
+-- Tables must be assigned with alias name(alias are mandatory).
+
+# ANSI SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 [SELF] JOIN TABLE2
+             ON TABLE1.CC = TABLE2.CC;
+
+# ORACLE SYNTAX :
+             SELECT */ DISTINCT COL/ EXPRESSION [ALIAS]
+             FROM TABLE1 T1, TABLE1 T2
+             WHERE T1.CC = T2.CC;
+
+1. WAQTD name and mgr name of empl.
+--> SELECT E.ENAME AS EMPLOYEE, M.ENAME AS MGR
+    FROM EMP E, EMP M
+    WHERE E.MGR = M.EMPNO;
+
+2. WAQTD name, dname, mgrno of an emp.
+--> SELECT E.ENAME AS EMP, M.ENAME AS MGR, D.DNAME
+    FROM EMP E, EMP M, DEPT D
+    WHERE E.MGR = M.EMPNO(+) AND
+          E.DEPTNO = D.DEPTNO(+);
+
+3. WAQTD name, dname, mgrname and mgr dname if mgr is ford.
+--> SELECT E.ENAME EMP_NAME, D.DNAME EMP_DEPT, M.ENAME MGR_NAME, MD.DNAME AS MGR_DEPT
+    FROM EMP E, EMP M, DEPT D, DEPT MD
+    WHERE E.MGR = M.EMPNO(+) AND
+          E.DEPTNO = D.DEPTNO(+) AND
+          M.DEPTNO = MD.DEPTNO(+);
