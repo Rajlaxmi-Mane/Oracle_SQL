@@ -1,0 +1,92 @@
+# DATA DEFINATION LANGUAGE (DDL) :
+----------------------------------------------------------------------------------------------------
+-- DDL is used to construct an object in database and deals with the structure of the object.
+-- It has 5 stmt :
+1. CREATE
+2. RENAME
+3. ALTER
+4. TRUNCATE
+5. DROP
+
+1 CREATE : 
+----------------------------------------------------------------------------------------------------
+-- It is used to build/ construct an object ( object can be table or view).
+
+# SYNTAX : 
+           CREATE TABLE TABLE_NAME (
+           COL_NAME1 DATATYPE CONSTRAINT,
+           COL_NAME2 DATATYPE CONSTARINT,
+           cOL_NAMEN DATATYPE CONSTRAINT ) 
+# EXA :
+1. CREATE TABLE EMP (
+   EMPNO NUMBER(4) PRIMARY KEY,
+   ENAME VARCHAR(20),
+   SAL NUMBER(10) CHECK(SAL>0),
+   DEPTNO REFERNCES DEPT(DEPTNO) // OR CONSTRAINT DEPTNO_FK FOREIGN KEY(DEPTNO) REFERENCES DEPT(DEPTNO);
+   );
+
+-- DESC TABLE_NAME; // Describes the details/ schema of the table.
+
+2. RENAME :
+----------------------------------------------------------------------------------------------------
+-- It is used to change the name of object.
+# SYNTAX :
+          RENAME OLD_TAB_NAME TO NEW TAB_NAME;
+# EXA :
+          RENAME EMP TO EMPLOYEE;
+
+3. ALTER :
+----------------------------------------------------------------------------------------------------
+-- It is used to modify the structure of table.
+
+i) Add a column : 
+# SYNTAX :
+       ALTER TABLE TABLE_NAME
+       ADD COLUMN COL_NAME DATATYPE CONSTRAINT;
+ EXA : ALTER TABLE EMP
+       ADD EMAIL VARCHAR(20) UNIQUE;
+
+ii) To drop a column :
+# SYNTAX :
+       ALTER TABLE TABLE_NAME
+       DROP COLUMN COL_NAME;
+ EXA : ALTER TABLE EMP
+       DROP EMAIL;
+
+iii) To rename a column :
+# SYNTAX :
+       ALTER TABLE TABLE_NAME
+       RENAME COLUMN OLD_COL_NAME TO NEW_COL_NAME;
+ EXA : ALTER TABLE EMP
+       ADD EMAIL TO EMAIL_ID;
+
+iv) To modify constraint :
+# SYNTAX :
+       ALTER TABLE TABLE_NAME
+       MODIFY COL_NAME nEW_DATATYPE NEW_CONSTRAINT;
+ EXA : ALTER TABLE EMP
+       ADD EMAIL VARCHAR(30) UNIQUE,NOT NULL;
+
+4. DROP :
+----------------------------------------------------------------------------------------------------
+-- It is used to remove the table from database.
+-- SYNTAX :
+         DROP TABLE TAB_NAME;
+-- EXA : DROP TABLE EMP;
+
+-- To recover the table :
+          FLASHBACK TABLE TAB_NAME
+          BEFORE DROP;
+-- To delete the table from bin folder :
+          PURGE TABLE TABLE_NAME;
+-- When we drop the table it will be stored into bin folder and using flashback we can get that table back
+   and using purge we can permenantly delete table from bin folder.
+-- Data along with schema will be deleted.
+
+5. TRUNCATE :
+----------------------------------------------------------------------------------------------------
+-- IT is used to remova all data from table.
+-- Schema will not be deleted.
+-- SYNTAX : TRUNCATE TABLE TAB_NAME;
+-- EXA : TRUNCATE TABLE EMP;
+-- We cannot restore data once it is deleted.
