@@ -1,0 +1,44 @@
+# DATA MANIPULATION LANGUAGE :
+------------------------------------------------------------------------------------------------
+-- It is used to manipulate the object by performing deletion, updation and insertion.
+-- It has 3 statements :
+1.INSERT
+2.DELETE
+3.UPDATE
+
+1. INSERT :
+----------------------------------------------------------------------
+-- It is usedd to insert/create record in a table.
+-- Syntax : 
+          INSERT INTO TAB_NAME VALUES(VAL1, VAL2, VAL3, ..., VALN);
+-- exa: INSERT INT EMP VALUES(1211,"ANU",12000.00);
+-- To insert dynamically : 
+    INSERT INTO EMP VALUES(&EMPID, &ENAME, &SAL);
+
+2. UPDATE :
+----------------------------------------------------------------------
+-- It is used to modify an existing value.
+-- SYNTAX :
+           UPDATE TABLE_NAME
+           SET COL_NAME = VALUE
+           [WHERE <CONDITION>];
+-- EXA:
+           UPDATE EMP 
+           SET ENAME = 'RAM'
+           WHERE EMPID = 1121;
+
+1.Update salary of the emp to 1000 if their sal is below 1k.
+--> UPDATE EMP
+    SET SAL = 1000
+    WHERE SAL < 1000;
+
+3. DELETE :
+----------------------------------------------------------------------
+-- It is used to remove perticular record from the table.
+-- Syntax :
+          DELETE FROM TABLE NAME
+          [WHERE <CONDITION>];
+-- EXA : 
+1. Delete the empls having sal < 1k.
+         DELETE FROM EMP
+         WHERE SAL < 1000;
